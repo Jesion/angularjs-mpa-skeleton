@@ -1,0 +1,5 @@
+target/
+template/
+.idea
+*.iml
+*.config
