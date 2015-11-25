@@ -1,5 +1,5 @@
 # angularjs-mpa-skeleton
-AngularJS Multiple Page Application Skeleton
+AngularJS Multi Page Application Skeleton
 
 # required nginx server settings
 
