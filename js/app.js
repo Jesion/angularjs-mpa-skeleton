@@ -22,26 +22,44 @@ app.factory('appModel', function () {
         this.data = data;
         return this;
     }
+    AppModel.prototype.clean = function () {
+        this.data = null;
+        return this;
+    }
     return new AppModel();
 });
 
 app.factory('appManager', function() {
 
-    var model;
+    //properties below go to AppModel together with persist / remove methods..
+    var data;
     var cookies;
-    var persist = function() {
-        cookies.put('data', model.data);
+    var persist = function(data) {
+        this.data = data;
+        cookies.put('data', data);
+    }
+    var remove = function () {
+        this.data = null;
+        cookies.remove('data');
     }
     return {
-        init: function ($cookieStore, $scope, appConfig, appModel) {
-            $scope.model = appModel.init($cookieStore.get('data'));
-            $scope.config = appConfig.init();
-            model = $scope.model;
+        init: function ($cookieStore, $scope, appConfig, appModel, shouldClear) {
             cookies = $cookieStore;
-            save();
+            $scope.config = appConfig.init();
+            if (shouldClear == false) {
+                var data = $cookieStore.get('data');
+                var model = appModel.init(data);
+                this.save(model.data);
+                $scope.model = model;
+            } else {
+                this.clean();
+            }
         },
-        save: function () {
-            persist();
+        save: function (data) {
+            persist(data);
+        },
+        clean: function() {
+            remove();
         }
     }
 });

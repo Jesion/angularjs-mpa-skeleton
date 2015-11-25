@@ -7,19 +7,9 @@
     </head>
 <body>
 <div>
-    <div class="inner">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <div class="login-panel panel panel-default" ng-controller="signinController">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Sign In</h3>
-                        </div>
-                        <div ui-view>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div ng-controller="signinController">
+        <h3>Sign In</h3>
+        <div ui-view>
         </div>
     </div>
 </div>
