@@ -17,6 +17,6 @@ home.config(function($stateProvider) {
 });
 
 home.controller('homeController', ['$state', '$scope', '$cookieStore', 'appConfig', 'appModel', 'appManager', function ($state, $scope, $cookieStore, appConfig, appModel, appManager) {
-    appManager.init($cookieStore, $scope, appConfig, appModel, false);
+    appManager.init(appConfig, $cookieStore, $scope, appModel, false);
     $state.go('main');
 }]);

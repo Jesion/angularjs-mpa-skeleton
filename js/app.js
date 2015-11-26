@@ -9,7 +9,6 @@ app.factory('appConfig', function () {
 
     };
     AppConfig.prototype.init = function () {
-        //set some properties;
         return this;
     }
     return new AppConfig();
@@ -17,49 +16,37 @@ app.factory('appConfig', function () {
 
 app.factory('appModel', function () {
     var AppModel = function() {
+
     };
-    AppModel.prototype.init = function (data) {
-        this.data = data;
+    AppModel.prototype.init = function (storage) {
+        this.storage = storage;
+        var data = this.storage.get('data');
+        if (data != null) {
+            this.save(data);
+        }
         return this;
     }
-    AppModel.prototype.clean = function () {
+    AppModel.prototype.save = function (data) {
+        this.data = data;
+        this.storage.put('data', data);
+    }
+    AppModel.prototype.clear = function () {
         this.data = null;
-        return this;
+        this.storage.remove('data');
     }
     return new AppModel();
 });
 
 app.factory('appManager', function() {
 
-    //properties below go to AppModel together with persist / remove methods..
-    var data;
-    var cookies;
-    var persist = function(data) {
-        this.data = data;
-        cookies.put('data', data);
-    }
-    var remove = function () {
-        this.data = null;
-        cookies.remove('data');
-    }
     return {
-        init: function ($cookieStore, $scope, appConfig, appModel, shouldClear) {
-            cookies = $cookieStore;
+        init: function (appConfig, $cookieStore, $scope, appModel, shouldClear) {
             $scope.config = appConfig.init();
-            if (shouldClear == false) {
-                var data = $cookieStore.get('data');
-                var model = appModel.init(data);
-                this.save(model.data);
-                $scope.model = model;
-            } else {
-                this.clean();
+            var model = appModel.init($cookieStore);
+            if (shouldClear == true) {
+                model.clear();
             }
-        },
-        save: function (data) {
-            persist(data);
-        },
-        clean: function() {
-            remove();
+            $scope.model = model;
         }
     }
 });
