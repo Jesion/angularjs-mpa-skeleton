@@ -6,7 +6,7 @@ signin.config(function($stateProvider) {
         .state('main', {
             name: 'main',
             templateUrl: "/modules/signin/main.html",
-            controller: function ($scope, $state, $http, $cookieStore, appModel) {
+            controller: function ($scope, appModel) {
                 $scope.signIn = function() {
                     setTimeout(function() {
                         console.log('Mocking a server response for user ' + $scope.userId + ' : ' + $scope.password + ' signin action');

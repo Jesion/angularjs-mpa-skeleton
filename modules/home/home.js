@@ -9,10 +9,7 @@ home.config(function($stateProvider) {
     $stateProvider
         .state('main', {
             name: 'main',
-            templateUrl: "/modules/home/main.html",
-            controller: function ($scope, $state, $http, $cookieStore, appModel) {
-
-            }
+            templateUrl: "/modules/home/main.html"
         })
 });
 
